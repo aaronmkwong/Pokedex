@@ -2,12 +2,12 @@ package main
 
 import "fmt"
 
-// commandHelp prints the available commands in the REPL
-func commandHelp() error {
+func commandHelp(cfg *config) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println()
 	fmt.Println("help: Displays a help message")
+	fmt.Println("map: Displays the next 20 location areas")
 	fmt.Println("exit: Exit the Pokedex")
 
 	return nil

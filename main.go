@@ -11,22 +11,20 @@ import (
 	"os"
 )
 
-// cliCommand represents a command the REPL can run.
-// Each command has:
-// - a name
-// - a description (used in help output)
-// - a callback function to execute
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func main() {
-	// Scanner reads user input from standard input (keyboard)
 	scanner := bufio.NewScanner(os.Stdin)
 
-	// Registry of all supported commands
+	cfg := &config{
+		Next:     nil,
+		Previous: nil,
+	}
+
 	commands := map[string]cliCommand{
 		"help": {
 			name:        "help",
@@ -38,40 +36,33 @@ func main() {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Displays the next 20 location areas",
+			callback:    commandMap,
+		},
 	}
 
-	// Start REPL loop
-	// This runs continuously until the user exits the program
 	for {
-		// Display prompt without a newline
 		fmt.Print("Pokedex > ")
 
-		// Wait for user input
 		scanner.Scan()
 		input := scanner.Text()
 
-		// Normalize and split input into words
 		words := CleanInput(input)
 
-		// Ignore empty input
 		if len(words) == 0 {
 			continue
 		}
 
-		// First word is the command name
 		commandName := words[0]
 
-		// Look up command in registry
 		command, exists := commands[commandName]
-
 		if exists {
-			// Execute command callback
-			// Print any returned error
-			if err := command.callback(); err != nil {
+			if err := command.callback(cfg); err != nil {
 				fmt.Println(err)
 			}
 		} else {
-			// Handle unknown command
 			fmt.Println("Unknown command")
 		}
 	}
