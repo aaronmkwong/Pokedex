@@ -1,2 +1,5 @@
 # exclude go executable file
 Pokedex
+
+# exclude the log file 
+repl.log
