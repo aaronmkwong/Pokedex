@@ -7,7 +7,7 @@ import (
 )
 
 // commandMapBack displays the previous 20 location areas
-func commandMapBack(cfg *config) error {
+func commandMapBack(cfg *config, args []string) error {
 	// If there is no previous page, we're at the beginning
 	if cfg.Previous == nil {
 		fmt.Println("you're on the first page")

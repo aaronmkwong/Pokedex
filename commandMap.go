@@ -18,7 +18,7 @@ type locationAreaResponse struct {
 	Results  []locationArea `json:"results"`
 }
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args []string) error {
 	url := "https://pokeapi.co/api/v2/location-area?limit=20"
 
 	// If we already have a next page stored, use it

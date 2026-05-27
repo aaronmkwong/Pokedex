@@ -1,30 +1,36 @@
-// run from project root folder to test: go run .   
-// terminate the program by pressing ctrl+c
-// can run the CLIand tee the output (copies the stdout) to a new file called repl.log
-// and .gitignore the log
-
 package main
 
 import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
+
+	"github.com/aaronMkwong/Pokedex/internal/pokeapi"
+	"github.com/aaronMkwong/Pokedex/internal/pokecache"
 )
 
+
+// cliCommand describes a REPL command
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+	// Initialize cache
+	cache := pokecache.NewCache(5 * time.Second)
 
+	// Initialize PokeAPI client
+	pokeClient := pokeapi.NewClient(cache)
+
+	// Shared app config passed to every command
 	cfg := &config{
-		Next:     nil,
-		Previous: nil,
+		pokeapiClient: pokeClient,
 	}
 
+	// Registry of supported commands
 	commands := map[string]cliCommand{
 		"help": {
 			name:        "help",
@@ -38,37 +44,57 @@ func main() {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays the next 20 location areas",
+			description: "Display the next 20 location areas",
 			callback:    commandMap,
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Displays the previous 20 location areas",
+			description: "Display the previous 20 location areas",
 			callback:    commandMapBack,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explore a location area",
+			callback:    commandExplore,
 		},
 	}
 
+	// Create scanner to read user input
+	scanner := bufio.NewScanner(os.Stdin)
+
+	// REPL loop
 	for {
+		// Prompt user
 		fmt.Print("Pokedex > ")
 
+		// Wait for input
 		scanner.Scan()
-		input := scanner.Text()
 
-		words := CleanInput(input)
+		// Clean input into lowercase words
+		words := CleanInput(scanner.Text())
 
+		// Skip empty input
 		if len(words) == 0 {
 			continue
 		}
 
+		// First word is command name
 		commandName := words[0]
 
+		// Remaining words are arguments
+		args := words[1:]
+
+		// Look up command
 		command, exists := commands[commandName]
-		if exists {
-			if err := command.callback(cfg); err != nil {
-				fmt.Println(err)
-			}
-		} else {
+		if !exists {
 			fmt.Println("Unknown command")
+			continue
+		}
+
+		// Execute command
+		err := command.callback(cfg, args)
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
 }
