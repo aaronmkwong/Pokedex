@@ -28,6 +28,7 @@ func main() {
 	// Shared app config passed to every command
 	cfg := &config{
 		pokeapiClient: pokeClient,
+		caughtPokemon: make(map[string]pokeapi.Pokemon),
 	}
 
 	// Registry of supported commands
@@ -56,6 +57,11 @@ func main() {
 			name:        "explore",
 			description: "Explore a location area",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch <pokemon_name>",
+			description: "Attempt to catch a pokemon",
+			callback:    commandCatch,
 		},
 	}
 
