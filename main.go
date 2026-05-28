@@ -1,3 +1,6 @@
+// from root of project on the command line
+// go run .
+
 package main
 
 import (
@@ -62,6 +65,11 @@ func main() {
 			name:        "catch <pokemon_name>",
 			description: "Attempt to catch a pokemon",
 			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Inspect a caught Pokemon",
+			callback:    commandInspect,
 		},
 	}
 
