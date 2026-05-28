@@ -2,7 +2,9 @@
 
 The catch mechanic introduces randomness tied to a Pokemon's BaseExperience, making stronger Pokemon harder to catch. This is a simple but effective game design pattern - using existing data to drive probabilistic outcomes without needing a separate difficulty system.
 
-The key skills here are struct design, map lookups, API consumption, caching, and building extensible CLI tools - all transferable to real backend work.
+The key skills here are struct design, map lookups, API consumption, caching, and building extensible CLI tools.
+
+In the screenshots below the help command is used, then the maps are viewed forward and back.  The great-marsh-area-5 is explored and "arbok" is not captured after a few attempts, then "tangela" is captured. The characteristics of "Tangela" are inspected. "Tangela" is confirmed to be in the Pokedex, then the game is exited.   
 
 <img src="https://github.com/aaronmkwong/Pokedex/blob/main/screenshots/Pokedex Commands All.jpg" width="1000" height="1000">
 
