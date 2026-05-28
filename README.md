@@ -21,7 +21,7 @@ The app fetches data from a real REST API (PokeAPI) and caches responses to avoi
 \*Update the CLI to support the "up" arrow to cycle through previous commands<br>
 \*Simulate battles between pokemon<br>
 \*Add more unit tests<br>
-\*Refactor your code to organize it better and make it more testable<br>
+\*Refactor code to organize it better and make it more testable<br>
 \*Keep pokemon in a "party" and allow them to level up<br>
 \*Allow for pokemon that are caught to evolve after a set amount of time<br>
 \*Persist a user's Pokedex to disk so they can save progress between sessions<br>
