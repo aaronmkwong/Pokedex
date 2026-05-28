@@ -4,6 +4,8 @@ The catch mechanic introduces randomness tied to a Pokemon's BaseExperience, mak
 
 The key skills here are struct design, map lookups, API consumption, caching, and building extensible CLI tools - all transferable to real backend work.
 
+<img src="https://github.com/aaronmkwong/Pokedex/blob/main/screenshots/Pokedex Commands All.jpg" width="1000" height="1000">
+
 **Architecture**
 
 The Pokedex is structured as a REPL (Read-Eval-Print Loop) - a pattern common in CLIs, database shells (like psql), and language interpreters. The core loop reads user input, parses it, dispatches to a command handler, and prints output. Shared state (the API client, cache, and caught Pokemon map) lives in a config struct that gets passed to every command, acting as a lightweight dependency injection pattern.
